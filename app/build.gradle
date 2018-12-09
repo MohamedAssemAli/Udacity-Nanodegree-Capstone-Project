@@ -57,16 +57,6 @@ dependencies {
     implementation 'uk.co.chrisjenx:calligraphy:2.3.0'
     // ShapeOfView
     implementation 'com.github.florent37:shapeofview:1.2.0'
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0') { exclude module: 'support-v13' }
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0')
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0')
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0') { exclude module: 'support-v13' }
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
-    compile('com.github.hotchemi:permissionsdispatcher:3.1.0')
-    annotationProcessor 'com.github.hotchemi:permissionsdispatcher-processor:3.1.0'
-}
+ }
 
 apply plugin: 'com.google.gms.google-services'

@@ -1,6 +1,7 @@
 package app.capstone.assem.com.capstone.Fragments.MainFragments;
 
 import android.Manifest;
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
@@ -54,11 +55,11 @@ import butterknife.OnClick;
 import static android.app.Activity.RESULT_OK;
 
 public class BookmarksFragment extends Fragment {
-
     private static final String TAG = BookmarksFragment.class.getSimpleName();
     // Vars
     private boolean mCamPermissionGranted = false;
     private static final int CAM_PERMISSION_REQUEST_CODE = 1234;
+    public static final int RequestPermissionCode = 7;
     private ArrayList<PlaceBookmarkModel> placeBookmarkModelArrayList;
     private PlacesBookmarkAdapter placesBookmarkAdapter;
     private String uid;
@@ -95,7 +96,7 @@ public class BookmarksFragment extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bookmarks, container, false);
         ButterKnife.bind(this, view);
@@ -213,33 +214,21 @@ public class BookmarksFragment extends Fragment {
         }
     }
 
-    private void startCrop() {
-        CropImage.activity()
-                .setCropShape(CropImageView.CropShape.OVAL)
-                .setGuidelines(CropImageView.Guidelines.ON)
-                .start(Objects.requireNonNull(getActivity()));
-    }
-
     private void getCamPermission() {
         String[] permissions = {Manifest.permission.CAMERA,
                 Manifest.permission.READ_EXTERNAL_STORAGE,
                 Manifest.permission.WRITE_EXTERNAL_STORAGE};
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.CAMERA)
-                == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_EXTERNAL_STORAGE)
-                    == PackageManager.PERMISSION_GRANTED) {
-                if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE)
-                        == PackageManager.PERMISSION_GRANTED) {
-                    mCamPermissionGranted = true;
-                    startCrop();
-                } else {
-                    ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, CAM_PERMISSION_REQUEST_CODE);
-                }
-            } else {
-                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, CAM_PERMISSION_REQUEST_CODE);
-            }
+
+        if (ActivityCompat.checkSelfPermission
+                (requireContext(), android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (requireContext(), android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (requireContext(), android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(permissions, CAM_PERMISSION_REQUEST_CODE);
         } else {
-            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, CAM_PERMISSION_REQUEST_CODE);
+            mCamPermissionGranted = true;
+            startCrop();
         }
     }
 
@@ -260,6 +249,13 @@ public class BookmarksFragment extends Fragment {
                 }
             }
         }
+    }
+
+    private void startCrop() {
+        CropImage.activity()
+                .setCropShape(CropImageView.CropShape.RECTANGLE)
+                .setGuidelines(CropImageView.Guidelines.ON)
+                .start(Objects.requireNonNull(getActivity()));
     }
 
     private void toggleLayout(boolean flag) {

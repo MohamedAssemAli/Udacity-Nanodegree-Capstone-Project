@@ -252,17 +252,14 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private void getLocationPermission() {
         String[] permissions = {Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION};
-        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
-            if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION)
-                    == PackageManager.PERMISSION_GRANTED) {
-                mLocationPermissionGranted = true;
-                initMap();
-            } else {
-                ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, LOCATION_PERMISSION_REQUEST_CODE);
-            }
+        if (ActivityCompat.checkSelfPermission
+                (requireContext(), android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission
+                (requireContext(), android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            requestPermissions(permissions, LOCATION_PERMISSION_REQUEST_CODE);
         } else {
-            ActivityCompat.requestPermissions(Objects.requireNonNull(getActivity()), permissions, LOCATION_PERMISSION_REQUEST_CODE);
+            mLocationPermissionGranted = true;
+            initMap();
         }
     }
 
