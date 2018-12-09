@@ -42,4 +42,8 @@
     <string name="title_activity_maps">Map</string>
     <string name="error_upload_img">Error updating image</string>
     <string name="upload_img_success">Image updated successfully</string>
+    <string name="logout">Logout</string>
+    <string name="edit_profile">Edit profile</string>
+    <string name="add_to_widget">Add to widget</string>
+    <string name="added_to_widget">Bookmark is added to widget</string>
 </resources>

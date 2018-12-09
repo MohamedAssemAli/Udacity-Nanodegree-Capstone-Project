@@ -3,6 +3,7 @@ package app.capstone.assem.com.capstone.App;
 public class AppConfig {
 
     public static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather/";
+    public static final int cacheSize = 10 * 1024 * 1024; // 10 MB
     public static final String WEATHER = "weather/";
     public static final String LAT = "lat";
     public static final String LON = "lon";
@@ -16,6 +17,7 @@ public class AppConfig {
     public static final String USERS = "users";
     public static final String USERS_IMG = "img";
     public static final String USERS_USERNAME = "username";
+    public static final String USERS_EMAIL = "email";
     public static final String USERS_PROFILE_IMAGES = "profile_images";
 
 }

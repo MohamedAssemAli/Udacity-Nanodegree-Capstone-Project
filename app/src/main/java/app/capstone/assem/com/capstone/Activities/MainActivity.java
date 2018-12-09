@@ -19,6 +19,7 @@ import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import app.capstone.assem.com.capstone.Adapters.ViewPagerAdapter;
 import app.capstone.assem.com.capstone.App.MyApplication;
@@ -33,7 +34,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyConfig;
 import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 
 public class MainActivity extends AppCompatActivity
-        implements ConnectivityReceiver.ConnectivityReceiverListener {
+//        implements ConnectivityReceiver.ConnectivityReceiverListener
+{
 
     private static final String TAG = MainActivity.class.getSimpleName();
     // Vars
@@ -60,21 +62,6 @@ public class MainActivity extends AppCompatActivity
     private void init() {
         // Firebase
         mAuth = FirebaseAuth.getInstance();
-        ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
-        viewPagerAdapter.addFragment(new MapFragment(), getString(R.string.map));
-        viewPagerAdapter.addFragment(new BookmarksFragment(), getString(R.string.bookmarks));
-        new ViewsUtils().setupTabLayout(viewPager, viewPagerAdapter, tabLayout, 0);
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        final IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
-        ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver(this);
-        registerReceiver(connectivityReceiver, intentFilter);
-        /*register connection status listener*/
-        MyApplication.getInstance(this).setConnectivityListener(this);
     }
 
     @Override
@@ -83,21 +70,30 @@ public class MainActivity extends AppCompatActivity
         // check if user is signed in and update UI accordingly
         if (mAuth.getCurrentUser() == null) {
             sendToStart();
+        } else {
+            ViewPagerAdapter viewPagerAdapter = new ViewPagerAdapter(getSupportFragmentManager());
+            viewPagerAdapter.addFragment(new MapFragment(), getString(R.string.map));
+            viewPagerAdapter.addFragment(new BookmarksFragment(), getString(R.string.bookmarks));
+            new ViewsUtils().setupTabLayout(viewPager, viewPagerAdapter, tabLayout, 0);
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        final IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(ConnectivityManager.CONNECTIVITY_ACTION);
+//        ConnectivityReceiver connectivityReceiver = new ConnectivityReceiver(this);
+//        registerReceiver(connectivityReceiver, intentFilter);
+//        /*register connection status listener*/
+//        MyApplication.getInstance(this).setConnectivityListener(this);
     }
 
     private void sendToStart() {
         Intent intent = new Intent(this, StartActivity.class);
+        StartActivity.fragment = null;
         startActivity(intent);
         finish();
-    }
-
-    private void logoutUser() {
-        FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            mAuth.signOut();
-            sendToStart();
-        }
     }
 
     private void isConnected(boolean isConnected) {
@@ -136,8 +132,8 @@ public class MainActivity extends AppCompatActivity
      * Callback will be triggered when there is change in
      * network connection
      */
-    @Override
-    public void onNetworkConnectionChanged(boolean isConnected) {
-        isConnected(isConnected);
-    }
+//    @Override
+//    public void onNetworkConnectionChanged(boolean isConnected) {
+//        isConnected(isConnected);
+//    }
 }

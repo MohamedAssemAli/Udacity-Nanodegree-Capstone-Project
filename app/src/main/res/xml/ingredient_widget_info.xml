@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<appwidget-provider xmlns:android="http://schemas.android.com/apk/res/android"
+    android:initialLayout="@layout/bookmark_widget"
+    android:minHeight="350dp"
+    android:minResizeHeight="320dp"
+    android:minResizeWidth="320dp"
+    android:minWidth="350dp"
+    android:previewImage="@drawable/widget_preview"
+    android:resizeMode="horizontal|vertical"
+    android:updatePeriodMillis="3600000"
+    android:widgetCategory="home_screen">
+
+
+</appwidget-provider>

@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import app.capstone.assem.com.capstone.App.AppConfig;
 import app.capstone.assem.com.capstone.Models.BookmarkModel;
@@ -19,8 +20,10 @@ import app.capstone.assem.com.capstone.Models.PlaceBookmarkModel;
 import app.capstone.assem.com.capstone.Networking.ApiClient;
 import app.capstone.assem.com.capstone.Networking.ApiInterface;
 import app.capstone.assem.com.capstone.R;
+import app.capstone.assem.com.capstone.Widget.WidgetHelper;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -29,6 +32,8 @@ import uk.co.chrisjenx.calligraphy.CalligraphyContextWrapper;
 public class DetailsActivity extends AppCompatActivity {
 
     private static final String TAG = DetailsActivity.class.getSimpleName();
+    // Vars
+    private BookmarkModel bookmarkModel;
     // Views
     @BindView(R.id.toolbar)
     Toolbar toolbar;
@@ -49,6 +54,13 @@ public class DetailsActivity extends AppCompatActivity {
     @BindView(R.id.details_activity_wind)
     TextView windTxt;
 
+    // OnClicks
+    @OnClick(R.id.details_activity_add_to_widget)
+    void addToWidget() {
+        new WidgetHelper(this).setWidgetBookmark(bookmarkModel);
+        Toast.makeText(this, getString(R.string.added_to_widget), Toast.LENGTH_SHORT).show();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,14 +75,13 @@ public class DetailsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
     }
 
-
     private void getPlaceWeather(String lat, String lan) {
-        ApiInterface apiService = ApiClient.getClient().create(ApiInterface.class);
+        ApiInterface apiService = ApiClient.getClient(this).create(ApiInterface.class);
         Call<BookmarkModel> bookmarkModelCall = apiService.getBookmarkData(lat, lan, AppConfig.API_KEY, AppConfig.METRIC);
         bookmarkModelCall.enqueue(new Callback<BookmarkModel>() {
             @Override
             public void onResponse(@NonNull Call<BookmarkModel> call, @NonNull Response<BookmarkModel> response) {
-                BookmarkModel bookmarkModel = response.body();
+                bookmarkModel = response.body();
                 if (bookmarkModel != null) {
                     cityNameTxt.setText(bookmarkModel.getName());
                     weatherTxt.setText(bookmarkModel.getWeather().get(0).getDescription());

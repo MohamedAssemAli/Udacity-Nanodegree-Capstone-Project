@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Objects;
 
+import app.capstone.assem.com.capstone.Activities.StartActivity;
 import app.capstone.assem.com.capstone.Adapters.PlacesBookmarkAdapter;
 import app.capstone.assem.com.capstone.App.AppConfig;
 import app.capstone.assem.com.capstone.Models.PlaceBookmarkModel;
@@ -59,7 +60,6 @@ public class BookmarksFragment extends Fragment {
     // Vars
     private boolean mCamPermissionGranted = false;
     private static final int CAM_PERMISSION_REQUEST_CODE = 1234;
-    public static final int RequestPermissionCode = 7;
     private ArrayList<PlaceBookmarkModel> placeBookmarkModelArrayList;
     private PlacesBookmarkAdapter placesBookmarkAdapter;
     private String uid;
@@ -80,6 +80,8 @@ public class BookmarksFragment extends Fragment {
     ContentLoadingProgressBar profilePicProgressBar;
     @BindView(R.id.fragment_bookmarks_username)
     TextView usernameTxt;
+    @BindView(R.id.fragment_bookmarks_email)
+    TextView emailTxt;
     @BindView(R.id.fragment_bookmarks_recycler_view)
     RecyclerView bookmarksRecyclerView;
     @BindView(R.id.fragment_bookmarks_empty_recycler)
@@ -89,6 +91,11 @@ public class BookmarksFragment extends Fragment {
     @OnClick(R.id.fragment_bookmarks_add_profile_pic)
     public void addPp() {
         getCamPermission();
+    }
+
+    @OnClick(R.id.fragment_bookmarks_logout)
+    void goToStart() {
+        logoutUser();
     }
 
     public BookmarksFragment() {
@@ -135,12 +142,17 @@ public class BookmarksFragment extends Fragment {
         mRef.child(AppConfig.USERS).child(uid).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                usernameTxt.setText(Objects.requireNonNull(dataSnapshot.child(AppConfig.USERS_USERNAME).getValue()).toString());
-                Imageutility.circularImage(requireContext(),
-                        profilePicImg,
-                        Objects.requireNonNull(dataSnapshot.child(AppConfig.USERS_IMG).getValue()).toString(),
-                        R.drawable.profile_placeholder,
-                        R.drawable.profile_placeholder);
+                if (dataSnapshot.exists()) {
+                    usernameTxt.setText(Objects.requireNonNull(dataSnapshot.child(AppConfig.USERS_USERNAME).getValue()).toString());
+                    emailTxt.setText(Objects.requireNonNull(dataSnapshot.child(AppConfig.USERS_EMAIL).getValue()).toString());
+                    Imageutility.circularImage(requireContext(),
+                            profilePicImg,
+                            Objects.requireNonNull(dataSnapshot.child(AppConfig.USERS_IMG).getValue()).toString(),
+                            R.drawable.profile_placeholder,
+                            R.drawable.profile_placeholder);
+                } else {
+                    Toast.makeText(requireContext(), R.string.error_getting_data, Toast.LENGTH_SHORT).show();
+                }
             }
 
             @Override
@@ -284,6 +296,21 @@ public class BookmarksFragment extends Fragment {
         } else {
             profilePicProgressBar.setVisibility(View.GONE);
             profilePicProgressBar.hide();
+        }
+    }
+
+    private void sendToStart() {
+        Intent intent = new Intent(requireContext(), StartActivity.class);
+        StartActivity.fragment = null;
+        startActivity(intent);
+        getActivity().finish();
+    }
+
+    private void logoutUser() {
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            mAuth.signOut();
+            sendToStart();
         }
     }
 }
