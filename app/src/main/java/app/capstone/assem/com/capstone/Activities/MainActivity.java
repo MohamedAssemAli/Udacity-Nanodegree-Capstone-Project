@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
             Dialog dialog = GoogleApiAvailability.getInstance().getErrorDialog(this, available, ERROR_DIALOG_REQUEST);
             dialog.show();
         } else {
-            Toast.makeText(this, "You can't make map request, update google play service version", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, R.string.google_play_services_error_msg, Toast.LENGTH_LONG).show();
         }
         return false;
     }

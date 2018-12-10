@@ -40,6 +40,7 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/city_pic_content"
                 android:src="@drawable/pin" />
 
             <LinearLayout
@@ -79,6 +80,7 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/city_weather_pic_content"
                 android:src="@drawable/weather" />
 
             <LinearLayout
@@ -120,6 +122,7 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/city_temp_pic_content"
                 android:src="@drawable/temperature" />
 
             <LinearLayout
@@ -178,6 +181,7 @@
                 android:layout_height="36dp"
                 android:layout_gravity="center"
                 android:layout_margin="@dimen/margin_padding_size_medium"
+                android:contentDescription="@string/city_wind_pic_content"
                 android:src="@drawable/wind" />
 
             <LinearLayout

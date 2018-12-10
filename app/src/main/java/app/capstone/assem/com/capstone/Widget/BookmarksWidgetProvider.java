@@ -11,7 +11,7 @@ import app.capstone.assem.com.capstone.Activities.MainActivity;
 import app.capstone.assem.com.capstone.Models.BookmarkModel;
 import app.capstone.assem.com.capstone.R;
 
-public class IngredientWidgetProvider extends AppWidgetProvider {
+public class BookmarksWidgetProvider extends AppWidgetProvider {
 
     @Override
     public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {

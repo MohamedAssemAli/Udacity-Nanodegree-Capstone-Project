@@ -1,5 +1,6 @@
 package app.capstone.assem.com.capstone.Activities;
 
+import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +12,11 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.RelativeLayout;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import java.io.Serializable;
 
 import app.capstone.assem.com.capstone.App.AppConfig;
 import app.capstone.assem.com.capstone.Models.BookmarkModel;
@@ -21,6 +25,7 @@ import app.capstone.assem.com.capstone.Networking.ApiClient;
 import app.capstone.assem.com.capstone.Networking.ApiInterface;
 import app.capstone.assem.com.capstone.R;
 import app.capstone.assem.com.capstone.Widget.WidgetHelper;
+import app.capstone.assem.com.capstone.Widget.WidgetIntentServices;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -58,8 +63,15 @@ public class DetailsActivity extends AppCompatActivity {
     @OnClick(R.id.details_activity_add_to_widget)
     void addToWidget() {
         new WidgetHelper(this).setWidgetBookmark(bookmarkModel);
+        fireService(bookmarkModel);
         Toast.makeText(this, getString(R.string.added_to_widget), Toast.LENGTH_SHORT).show();
     }
+
+    private void fireService(BookmarkModel bookmarkModel) {
+        Intent intent = new Intent(this, WidgetIntentServices.class);
+        startService(intent);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +100,7 @@ public class DetailsActivity extends AppCompatActivity {
                     temperatureTxt.setText(String.valueOf(bookmarkModel.getMain().getTemp()));
                     humidityTxt.setText(String.valueOf(bookmarkModel.getMain().getHumidity()));
                     windTxt.setText(String.valueOf(bookmarkModel.getWind().getSpeed()));
+                    toggleLayout(true);
                 }
             }
 
@@ -95,9 +108,9 @@ public class DetailsActivity extends AppCompatActivity {
             public void onFailure(@NonNull Call<BookmarkModel> call, @NonNull Throwable t) {
                 // Log error here since request failed
                 Log.e(TAG, t.toString());
+                closeOnError();
             }
         });
-        toggleLayout(true);
     }
 
     private void toggleLayout(boolean flag) {
@@ -134,6 +147,11 @@ public class DetailsActivity extends AppCompatActivity {
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
+    }
+
+    private void closeOnError() {
+        Toast.makeText(this, R.string.error_getting_data, Toast.LENGTH_LONG).show();
+        finish();
     }
 
 }

@@ -60,9 +60,9 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:adjustViewBounds="true"
+                                android:contentDescription="@string/profile_pic_content"
                                 android:scaleType="fitXY"
-                                android:src="@drawable/profile_placeholder"
-                                tools:ignore="ContentDescription" />
+                                android:src="@drawable/profile_placeholder" />
                         </com.github.florent37.shapeofview.shapes.CircleView>
 
                         <android.support.v4.widget.ContentLoadingProgressBar
@@ -81,10 +81,10 @@
                         android:layout_gravity="center"
                         android:layout_marginTop="-25dp"
                         android:background="@drawable/circular_image_view"
+                        android:contentDescription="@string/add_profile_pic_content"
                         android:scaleType="centerInside"
                         android:src="@drawable/ic_add_a_photo_white_18dp"
-                        android:visibility="visible"
-                        tools:ignore="ContentDescription,RtlHardcoded" />
+                        android:visibility="visible" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -140,10 +140,10 @@
             android:id="@+id/fragment_bookmarks_empty_recycler"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/empty_recycler_content"
             android:scaleType="fitCenter"
             android:src="@drawable/empty_bookmarks_placeholder"
-            android:visibility="gone"
-            tools:ignore="ContentDescription" />
+            android:visibility="gone" />
 
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>

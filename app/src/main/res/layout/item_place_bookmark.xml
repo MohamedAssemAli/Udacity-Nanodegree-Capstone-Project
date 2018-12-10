@@ -23,8 +23,8 @@
             android:layout_height="36dp"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:src="@drawable/pin"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/bookmark_content"
+            android:src="@drawable/pin" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -67,10 +67,8 @@
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="center"
-                android:src="@drawable/ic_delete_forever_red_700_24dp"
-                tools:ignore="ContentDescription" />
-
+                android:contentDescription="@string/delete_content"
+                android:src="@drawable/ic_delete_forever_red_700_24dp" />
         </LinearLayout>
-
     </LinearLayout>
 </android.support.v7.widget.CardView>

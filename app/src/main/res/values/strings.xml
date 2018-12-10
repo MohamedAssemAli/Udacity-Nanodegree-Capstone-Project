@@ -46,4 +46,17 @@
     <string name="edit_profile">Edit profile</string>
     <string name="add_to_widget">Add to widget</string>
     <string name="added_to_widget">Bookmark is added to widget</string>
+    <string name="google_play_services_error_msg">You can\'t make map request, update google play service version</string>
+    <string name="add_pic_content">This image view to add profile pic</string>
+    <string name="profile_pic_content">This image view to view user profile pic</string>
+    <string name="add_profile_pic_content">This image view to add profile pic</string>
+    <string name="empty_recycler_content">This image view to be viewed when recycler is empty</string>
+    <string name="city_pic_content">This image view to view city name</string>
+    <string name="city_weather_pic_content">This image view to view city weather</string>
+    <string name="city_temp_pic_content">This image view to view city temperature</string>
+    <string name="city_wind_pic_content">This image view to view city wind</string>
+    <string name="logo_content">This image view to view app logo</string>
+    <string name="bookmark_content">This image view to view bookmark name</string>
+    <string name="delete_content">This image view to view delete button</string>
+    <string name="no_connection_content">This image view to be viewed when there is no connection</string>
 </resources>
