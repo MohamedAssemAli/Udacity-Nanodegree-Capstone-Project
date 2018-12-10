@@ -1,6 +1,7 @@
 package app.capstone.assem.com.capstone.Activities;
 
 import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import app.capstone.assem.com.capstone.Models.PlaceBookmarkModel;
 import app.capstone.assem.com.capstone.Networking.ApiClient;
 import app.capstone.assem.com.capstone.Networking.ApiInterface;
 import app.capstone.assem.com.capstone.R;
+import app.capstone.assem.com.capstone.Widget.BookmarksWidgetProvider;
 import app.capstone.assem.com.capstone.Widget.WidgetHelper;
 import app.capstone.assem.com.capstone.Widget.WidgetIntentServices;
 import butterknife.BindView;
@@ -63,15 +65,19 @@ public class DetailsActivity extends AppCompatActivity {
     @OnClick(R.id.details_activity_add_to_widget)
     void addToWidget() {
         new WidgetHelper(this).setWidgetBookmark(bookmarkModel);
-        fireService(bookmarkModel);
+        fireService();
         Toast.makeText(this, getString(R.string.added_to_widget), Toast.LENGTH_SHORT).show();
     }
 
-    private void fireService(BookmarkModel bookmarkModel) {
-        Intent intent = new Intent(this, WidgetIntentServices.class);
-        startService(intent);
+    private void fireService() {
+        Intent intent = new Intent(this, BookmarksWidgetProvider.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID
+        int[] ids = AppWidgetManager.getInstance(getApplication())
+                .getAppWidgetIds(new ComponentName(this, BookmarksWidgetProvider.class));
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        sendBroadcast(intent);
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
